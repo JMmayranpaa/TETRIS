@@ -24,6 +24,7 @@ namespace TETRIS
         int[,] canvasDotArray;
         int dotSize = 20;
 
+        //Step2
         private void loadCanvas()
         {
             // Rezise the picture box based on the dotsize and canvas size
