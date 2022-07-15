@@ -1,0 +1,10 @@
+C:\Users\Juha-Matti Mäyränpää\OneDrive - Codea Oy\Työpöytä\omat\projektit\TETRIS\TETRIS\TETRIS\bin\Debug\TETRIS.exe.config
+C:\Users\Juha-Matti Mäyränpää\OneDrive - Codea Oy\Työpöytä\omat\projektit\TETRIS\TETRIS\TETRIS\bin\Debug\TETRIS.exe
+C:\Users\Juha-Matti Mäyränpää\OneDrive - Codea Oy\Työpöytä\omat\projektit\TETRIS\TETRIS\TETRIS\bin\Debug\TETRIS.pdb
+C:\Users\Juha-Matti Mäyränpää\OneDrive - Codea Oy\Työpöytä\omat\projektit\TETRIS\TETRIS\TETRIS\obj\Debug\TETRIS.csproj.AssemblyReference.cache
+C:\Users\Juha-Matti Mäyränpää\OneDrive - Codea Oy\Työpöytä\omat\projektit\TETRIS\TETRIS\TETRIS\obj\Debug\TETRIS.Form1.resources
+C:\Users\Juha-Matti Mäyränpää\OneDrive - Codea Oy\Työpöytä\omat\projektit\TETRIS\TETRIS\TETRIS\obj\Debug\TETRIS.Properties.Resources.resources
+C:\Users\Juha-Matti Mäyränpää\OneDrive - Codea Oy\Työpöytä\omat\projektit\TETRIS\TETRIS\TETRIS\obj\Debug\TETRIS.csproj.GenerateResource.cache
+C:\Users\Juha-Matti Mäyränpää\OneDrive - Codea Oy\Työpöytä\omat\projektit\TETRIS\TETRIS\TETRIS\obj\Debug\TETRIS.csproj.CoreCompileInputs.cache
+C:\Users\Juha-Matti Mäyränpää\OneDrive - Codea Oy\Työpöytä\omat\projektit\TETRIS\TETRIS\TETRIS\obj\Debug\TETRIS.exe
+C:\Users\Juha-Matti Mäyränpää\OneDrive - Codea Oy\Työpöytä\omat\projektit\TETRIS\TETRIS\TETRIS\obj\Debug\TETRIS.pdb

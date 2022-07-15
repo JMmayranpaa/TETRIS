@@ -12,11 +12,25 @@ namespace TETRIS
 {
     public partial class Form1 : Form
     {
+        Shape currentShape;
+        Shape nextShape;
+        Timer timer = new Timer();
+
         public Form1()
         {
             InitializeComponent();
             loadCanvas();
+
+            currentShape = getRandomShapeWithCenterAligned();
+            nextShape = getNextShape();
+
+            timer.Tick += Timer_Tick;
+            timer.Interval = 500;
+            timer.Start();
+
+            this.KeyDown += Form1_KeyDown;
         }
+
         Bitmap canvasBitmap;
         Graphics canvasGraphics;
         int canvasWidth = 15;
@@ -44,8 +58,95 @@ namespace TETRIS
             // Initialize canvas dot array. By default all elements are zero
             canvasDotArray = new int[canvasWidth, canvasHeight];
 
+        }
+        int currentX;
+        int currentY;
+        private Shape getRandomShapeWithCenterAligned()
+        {
+            var shape = ShapesHandler.GetRandomShape();
+
+            // Calculate the X and Y values as if the shape lies in the center
+            currentX = 7;
+            currentY = -shape.Height;
+
+            return shape;
+        }
+        Bitmap workingBitmap;
+        Bitmap workingGraphics;
+
+        private Timer_Tick(object sender, EventArgs e)
+        {
+            var isMoveSucces = moveShapeIfPossible(moveDown: 1);
+
+            // If shape reached bottom or touched any other shapes
+            if (!isMoveSucces)
+            {
+
+                // Copy working image into canvas image
+                canvasBitmap = new Bitmap(workingBitmap);
+
+                updateCanvasDotArrayWithCurrentShape();
+
+                // Get next shape
+                currentShape = nextShape;
+                nextShape = getNextShape();
+
+                clearFilledRowsAndUpdateScrore();
+               
+            }
 
         }
+        /// <summary>
+        /// https://github.com/learnfromanver/tetris-brick-game/blob/master/Tetris/Tetris/Form1.cs
+        /// </summary>
+        private void updateCanvasDotArrayWithCurrentShape()
+        {
+
+        }
+        private void drawShape()
+        {
+            workingBitmap = new Bitmap(canvasBitmap);
+            workingGraphics = Graphics.FromImage(workingBitmap);
+
+            for (int i = 0; i < currentShape.Width; i++)
+            {
+                for (int j = 0; j < currentShape.Height; j++)
+                {
+                    if (currentShape.Dots[j, i] == 1)
+                        workingGraphics.FillRectangle(Brushes.Black, (currentX + 1) * dotSize, (currentY + j) * dotSize, dotSize, dotSize);
+                }
+            }
+            pictureBox1.Image = workingBitmap;
+        }
+        
+  
+        private bool moveShapeIfPossible(int moveDown = 0, int moveSide = 0)
+        {
+            var newX = currentX + moveSide;
+            var newY = currentY + moveDown;
+
+            //Check if it reaches the bottom or side bar
+            if (newX < 0 || newX + currentShape.Width > canvasWidth || newY + currentShape.Height > canvasHeight)
+                return false;
+            // Check if it touches any other blocks
+            for(int i = 0; i < currentShape.Width; i++)
+            {
+                for(int j = 0; j < currentShape.Height; j++)
+                {
+                    if (newY + j > 0 && canvasDotArray[newX + 1, newY + j] == 1 && currentShape.Dots[j, i] == 1)
+                        return false;
+                }
+            }
+            currentX = newX;
+            currentY = newY;
+
+            drawShape();
+
+            return true;
+        }
+  
+
+       
 
     }
 }
