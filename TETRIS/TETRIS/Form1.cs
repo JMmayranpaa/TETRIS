@@ -101,25 +101,29 @@ namespace TETRIS
         /// </summary>
         private void updateCanvasDotArrayWithCurrentShape()
         {
-
-        }
-        private void drawShape()
-        {
-            workingBitmap = new Bitmap(canvasBitmap);
-            workingGraphics = Graphics.FromImage(workingBitmap);
-
-            for (int i = 0; i < currentShape.Width; i++)
+            for (int i = 0; i < currentShape.Widht; i++)
             {
                 for (int j = 0; j < currentShape.Height; j++)
                 {
                     if (currentShape.Dots[j, i] == 1)
-                        workingGraphics.FillRectangle(Brushes.Black, (currentX + 1) * dotSize, (currentY + j) * dotSize, dotSize, dotSize);
+                    {
+                        checkIfGameOver();
+
+                        canvasDotArray[currentX + i, currentY + j] = 1;
+                    }
                 }
             }
-            pictureBox1.Image = workingBitmap;
         }
-        
-  
+        private void checkIfGameOver()
+        {
+            if (currentY < 0)
+            {
+                timer.Stop();
+                MessageBox.Show("Game Over");
+                Application.Restart();
+            }
+        }
+        // Return if it reaches the bottom or touches any other blocks
         private bool moveShapeIfPossible(int moveDown = 0, int moveSide = 0)
         {
             var newX = currentX + moveSide;
@@ -129,9 +133,9 @@ namespace TETRIS
             if (newX < 0 || newX + currentShape.Width > canvasWidth || newY + currentShape.Height > canvasHeight)
                 return false;
             // Check if it touches any other blocks
-            for(int i = 0; i < currentShape.Width; i++)
+            for (int i = 0; i < currentShape.Width; i++)
             {
-                for(int j = 0; j < currentShape.Height; j++)
+                for (int j = 0; j < currentShape.Height; j++)
                 {
                     if (newY + j > 0 && canvasDotArray[newX + 1, newY + j] == 1 && currentShape.Dots[j, i] == 1)
                         return false;
@@ -144,9 +148,59 @@ namespace TETRIS
 
             return true;
         }
-  
+        private void drawShape()
+        {
+            workingBitmap = new Bitmap(canvasBitmap);
+            workingGraphics = Graphics.FromImage(workingBitmap);
 
-       
+            for (int i = 0; i < currentShape.Widht; i++)
+            {
+                for (int j = 0; j < currentShape.Height; j++)
+                {
+                    if (currentShape.Dots[j, i] == 1)
+                        workingGraphics.FillRectangle(Brushes.Black, (currentX + 1) * dotSize, (currentY + j) * dotSize, dotSize, dotSize);
+                }
+            }
+            pictureBox1.Image = workingBitmap;
+        }
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            var verticalMove = 0;
+            var horizontalMove = 0;
+
+            // Calculate the vertical and horizontal move values
+            // Based on the key pressed
+            switch (e.KeyCode)
+            {
+                // Move shape left
+                case Keys.Left:
+                    verticalMove--;
+                    break;
+                // Move shape right
+                case Keys.Right:
+                    verticalMove++;
+                    break;
+                // Move shape down faster
+                case Keys.Down:
+                    horizontalMove++;
+                    break;
+                // Rotate the shape clockwise
+                case Keys.Up:
+                    currentShape.turn();
+                    break;
+                default:
+                    return;
+            }
+            var usMoveSucces = moveShapeIfPossible(horizontalMove, verticalMove);
+
+            // If the player was trying to rotate the shape, but
+            // that move was not possible - rollback the shape
+
+            if (!isMoveSucces && e.KeyCode == Keys.Up)
+                currentShape.rollBack();
+        }
+        // line 201
+        int score;
 
     }
 }
