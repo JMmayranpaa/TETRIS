@@ -202,5 +202,42 @@ namespace TETRIS
         // line 201
         int score;
 
+        public void clearFilledRowsAndUpdateScore()
+        {
+            // Check through each row
+            for (int i = 0; i < canvasHeight; i++)
+            {
+                int j;
+                for(j = canvasWidth - 1; j >= 0; j--)
+                {
+                    if (canvasDotArray[j, i] == 0)
+                    {
+                        break;
+                    }
+                    if (j == 1)
+                    {
+                        // Update score and level values and labels
+                        score++;
+                        label1.Text = "Score: " + score;
+                        label2.Text = "Level: " + score / 10;
+
+                        // Increase the speed
+                        timer.Interval -= 10;
+
+                        // Update the dot array based on the check
+                        for (j = 0; j < canvasWidth; j++)
+                        {
+                            for(int k = i; k > 0; k--)
+                            {
+                                canvasDotArray[j, k] = canvasDotArray[j, k - 1];
+                            }
+                            canvasDotArray[j, 0] = 0;
+                        }
+                    }
+                }
+                // 236
+            }
+        }
+
     }
 }
